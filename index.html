@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MineTrack Pro - Système de Gestion Minière</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #10b981;
+            --dark: #0f172a;
+            --darker: #030712;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--light);
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--light);
+        }
+
+        .logo i {
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: var(--primary);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 2px solid var(--primary);
+        }
+
+        .cta-button:hover {
+            background: transparent;
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 180px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-image {
+            max-width: 800px;
+            margin: 3rem auto 0;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(100, 116, 139, 0.2);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Features */
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--light);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--light);
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Screenshots */
+        .screenshots {
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .screenshot-card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s;
+        }
+
+        .screenshot-card:hover {
+            transform: scale(1.03);
+        }
+
+        .screenshot-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Technologies */
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .tech-item {
+            background: rgba(30, 41, 59, 0.6);
+            padding: 1.5rem 2rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+        }
+
+        .tech-item i {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        /* Download */
+        .download-section {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            margin: 4rem 0;
+        }
+
+        .download-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: 2px solid var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--light);
+            border: 2px solid var(--gray);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        /* Contact */
+        .contact-section {
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 20px;
+            padding: 4rem;
+            margin-top: 4rem;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .contact-item {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 15px;
+            width: 250px;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+            transition: all 0.3s;
+        }
+
+        .contact-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .contact-item i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .contact-item h4 {
+            margin-bottom: 0.5rem;
+            color: var(--light);
+        }
+
+        .contact-item a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-item a:hover {
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            padding: 4rem 0 2rem;
+            margin-top: 6rem;
+            border-top: 1px solid rgba(100, 116, 139, 0.2);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links h4 {
+            color: var(--light);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(100, 116, 139, 0.2);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .contact-section {
+                padding: 2rem;
+            }
+            
+            .hero {
+                padding: 150px 0 60px;
+            }
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-mountain"></i>
+                    <span>MineTrack Pro</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#features">Fonctionnalités</a>
+                    <a href="#screenshots">Captures</a>
+                    <a href="#tech">Technologies</a>
+                    <a href="#download">Téléchargement</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <a href="#download" class="cta-button">
+                    <i class="fas fa-download"></i> Télécharger
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <h1>MineTrack Pro</h1>
+            <p>Tableau de bord minier intelligent - Suivi en temps réel, analyse avancée et gestion optimisée des opérations minières</p>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Tableau de bord MineTrack">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section" id="features">
+        <div class="container">
+            <h2 class="section-title">Fonctionnalités Premium</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Dashboard Intelligent</h3>
+                    <p>Interface moderne avec métriques en temps réel, graphiques dynamiques et visualisation de données avancée.</p>
+                    <ul style="color: var(--gray); padding-left: 1.5rem;">
+                        <li>Suivi de production en direct</li>
+                        <li>Analyse de la qualité</li>
+                        <li>Statistiques détaillées</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Simulation Intelligente</h3>
+                    <p>Système de simulation réaliste avec génération automatique de données et prévisions de production.</p>
+                    <ul style="color: var(--gray); padding-left: 1.5rem;">
+                        <li>Génération automatique de lots</li>
+                        <li>Prévisions à 7 jours</li>
+                        <li>Analyse des tendances</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Système de Notifications</h3>
+                    <p>Alertes en temps réel avec priorisation, historisation et notifications par email.</p>
+                    <ul style="color: var(--gray); padding-left: 1.5rem;">
+                        <li>Notifications multi-niveaux</li>
+                        <li>Alertes par email</li>
+                        <li>Historique des alertes</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>Export Cloud</h3>
+                    <p>Exportation des données vers Google Drive, Dropbox, OneDrive et AWS S3.</p>
+                    <ul style="color: var(--gray); padding-left: 1.5rem;">
+                        <li>Multiples formats supportés</li>
+                        <li>Synchronisation automatique</li>
+                        <li>Sauvegarde sécurisée</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Base de Données</h3>
+                    <p>Gestion SQLite avec sauvegarde automatique, restauration et chiffrement des données.</p>
+                    <ul style="color: var(--gray); padding-left: 1.5rem;">
+                        <li>Sauvegarde automatique</li>
+                        <li>Restauration facile</li>
+                        <li>Données chiffrées</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Personnalisation Avancée</h3>
+                    <p>Interface entièrement personnalisable avec thèmes, couleurs et dispositions modifiables.</p>
+                    <ul style="color: var(--gray); padding-left: 1.5rem;">
+                        <li>Thèmes clair/sombre</li>
+                        <li>Couleurs personnalisables</li>
+                        <li>Disposition flexible</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="section screenshots" id="screenshots">
+        <div class="container">
+            <h2 class="section-title">Captures d'Écran</h2>
+            <div class="screenshot-grid">
+                <div class="screenshot-card">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Dashboard principal">
+                </div>
+                <div class="screenshot-card">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2015&q=80" alt="Graphiques analytiques">
+                </div>
+                <div class="screenshot-card">
+                    <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Gestion des données">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies -->
+    <section class="section" id="tech">
+        <div class="container">
+            <h2 class="section-title">Technologies Utilisées</h2>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <i class="fab fa-python"></i>
+                    <div>
+                        <h4>Python 3.11</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem;">Langage principal</p>
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-database"></i>
+                    <div>
+                        <h4>SQLite</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem;">Base de données</p>
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-html5"></i>
+                    <div>
+                        <h4>HTML5/CSS3</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem;">Interface web</p>
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-js"></i>
+                    <div>
+                        <h4>JavaScript</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem;">Interactivité</p>
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <div>
+                        <h4>Matplotlib</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem;">Visualisation</p>
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <div>
+                        <h4>Tkinter</h4>
+                        <p style="color: var(--gray); font-size: 0.9rem;">Interface desktop</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download -->
+    <section class="section" id="download">
+        <div class="container">
+            <div class="download-section">
+                <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Téléchargez MineTrack Pro</h2>
+                <p style="color: var(--gray); max-width: 600px; margin: 0 auto 2rem;">
+                    Application desktop complète pour Windows, macOS et Linux. Système de gestion minière tout-en-un.
+                </p>
+                <div class="download-buttons">
+                    <a href="#contact" class="btn btn-primary">
+                        <i class="fas fa-file-alt"></i> Documentation
+                    </a>
+                    <a href="https://github.com/malachiebotoko/MineTrack" class="btn btn-primary" target="_blank">
+                        <i class="fab fa-github"></i> Code Source
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <i class="fas fa-question-circle"></i> Support
+                    </a>
+                </div>
+                <p style="margin-top: 2rem; color: var(--gray); font-size: 0.9rem;">
+                    Version 2.0.0 • Taille : ~25MB • Licence : Éducative
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact & Support</h2>
+            <div class="contact-section">
+                <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                    <h3 style="font-size: 2rem; margin-bottom: 1rem;">Projet Étudiant - Défense de Projet</h3>
+                    <p style="color: var(--gray); margin-bottom: 2rem;">
+                        MineTrack Pro est un projet académique développé dans le cadre d'une formation en informatique.
+                        L'application démontre les compétences en développement logiciel, gestion de données et interface utilisateur.
+                    </p>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-user-graduate"></i>
+                        <h4>Étudiant</h4>
+                        <p>Malachie Botoko</p>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <h4>Email</h4>
+                        <a href="mailto:malachiebotoko03@gmail.com">malachiebotoko03@gmail.com</a>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h4>Projet Académique</h4>
+                        <p>Défense de Projet</p>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h4>Année</h4>
+                        <p>2024</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 3rem; padding-top: 3rem; border-top: 1px solid rgba(100, 116, 139, 0.2);">
+                    <h4 style="margin-bottom: 1rem;">Documentation du Projet</h4>
+                    <p style="color: var(--gray); margin-bottom: 2rem;">
+                        Rapport complet, présentation PowerPoint et code source disponibles sur demande.
+                    </p>
+                    <a href="mailto:malachiebotoko03@gmail.com?subject=Demande%20Documentation%20MineTrack&body=Bonjour,%20je%20suis%20intéressé%20par%20la%20documentation%20de%20MineTrack%20Pro." class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Demander la Documentation
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">
+                        <i class="fas fa-mountain"></i>
+                        <span>MineTrack Pro</span>
+                    </div>
+                    <p style="color: var(--gray); max-width: 300px;">
+                        Système de gestion minière intelligent - Projet académique de démonstration.
+                    </p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Liens Rapides</h4>
+                    <ul>
+                        <li><a href="#features">Fonctionnalités</a></li>
+                        <li><a href="#screenshots">Captures d'écran</a></li>
+                        <li><a href="#tech">Technologies</a></li>
+                        <li><a href="#download">Téléchargement</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Ressources</h4>
+                    <ul>
+                        <li><a href="#contact">Documentation</a></li>
+                        <li><a href="#contact">Rapport de projet</a></li>
+                        <li><a href="#contact">Présentation</a></li>
+                        <li><a href="#contact">Code source</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:malachiebotoko03@gmail.com">Email</a></li>
+                        <li><a href="#contact">Support technique</a></li>
+                        <li><a href="#contact">Questions académiques</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2024 MineTrack Pro - Projet Académique. Tous droits réservés. Développé par Malachie Botoko.</p>
+                <p style="margin-top: 0.5rem; font-size: 0.8rem; color: #475569;">
+                    Cette application est un projet de démonstration dans le cadre d'une formation en informatique.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.backgroundColor = 'rgba(15, 23, 42, 0.98)';
+                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.backgroundColor = 'rgba(15, 23, 42, 0.95)';
+                header.style.boxShadow = 'none';
+            }
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe feature cards
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
