@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MineTrack Pro - Projet de Malachie Botoko</title>
+    
+    <!-- Meta Tags avec TON nom -->
+    <meta name="author" content="Malachie Botoko">
+    <meta name="email" content="malachiebotoko03@gmail.com">
+    <meta name="description" content="MineTrack Pro - Tableau de bord minier intelligent. Projet académique de Malachie Botoko.">
+    
+    <!-- Open Graph / Réseaux sociaux -->
+    <meta property="og:title" content="MineTrack Pro - Par Malachie Botoko">
+    <meta property="og:description" content="Projet de fin d'études - Dashboard minier intelligent">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/0f172a/3b82f6?text=MineTrack+Pro">
+    <meta property="og:url" content="https://m-a-l-a-hub.github.io/minetrack-pro">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #059669;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gradient: linear-gradient(135deg, #2563eb 0%, #059669 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 16px 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .github-link {
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .github-link:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section avec Vidéo */
+        .hero {
+            padding: 160px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(5, 150, 105, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 24px;
+        }
+
+        .hero-author {
+            display: inline-block;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            border: 1px solid rgba(37, 99, 235, 0.3);
+        }
+
+        /* Conteneur Vidéo */
+        .video-container {
+            background: var(--dark);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            position: relative;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            background: #000;
+        }
+
+        .video-wrapper iframe,
+        .video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-caption {
+            padding: 16px;
+            background: rgba(15, 23, 42, 0.9);
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .video-caption i {
+            color: var(--primary);
+            margin-right: 8px;
+        }
+
+        /* Badge Projet */
+        .project-badge {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge i {
+            color: var(--primary);
+        }
+
+        /* Section À propos */
+        .about {
+            padding: 80px 0;
+            background: var(--dark);
+            border-radius: 30px;
+            margin: 40px 0;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .student-card {
+            background: rgba(2, 6, 23, 0.5);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+        }
+
+        .student-avatar {
+            width: 120px;
+            height: 120px;
+            background: var(--gradient);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .student-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .student-title {
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .student-contact {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .student-contact a {
+            color: var(--gray);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+
+        .student-contact a:hover {
+            color: var(--primary);
+        }
+
+        /* Timeline Projet */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gradient);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 40px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -38px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 3px solid var(--darker);
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 8px;
+        }
+
+        .timeline-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        /* Section Fonctionnalités */
+        .features {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            color: var(--gray);
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px;
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(100, 116, 139, 0.2);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 24px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+
+        .feature-card p {
+            color: var(--gray);
+        }
+
+        /* Section Captures d'écran */
+        .screenshots {
+            padding: 80px 0;
+            background: var(--dark);
+            border-radius: 30px;
+        }
+
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .screenshot-item {
+            background: rgba(2, 6, 23, 0.5);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+        }
+
+        .screenshot-image {
+            width: 100%;
+            height: 200px;
+            background: var(--darker);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-size: 3rem;
+        }
+
+        .screenshot-caption {
+            padding: 16px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Section Téléchargement */
+        .download {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .download-card {
+            background: var(--gradient);
+            border-radius: 30px;
+            padding: 60px;
+            color: white;
+        }
+
+        .download-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .download-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .btn-light {
+            background: white;
+            color: var(--dark);
+        }
+
+        .btn-outline-light {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Section Contact */
+        .contact {
+            padding: 80px 0;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 30px;
+            padding: 40px;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+        }
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+
+        .contact-detail i {
+            width: 40px;
+            height: 40px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            background: rgba(2, 6, 23, 0.5);
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            border-radius: 10px;
+            color: white;
+            font-family: inherit;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .contact-form button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .contact-form button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            padding: 60px 0 30px;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-social a {
+            color: var(--gray);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-social a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fadeInUp {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-cube"></i>
+                    <span>MineTrack Pro</span>
+                </div>
+                
+                <div class="nav-links">
+                    <a href="#accueil">Accueil</a>
+                    <a href="#projet">Projet</a>
+                    <a href="#features">Fonctionnalités</a>
+                    <a href="#screenshots">Captures</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                
+                <a href="https://github.com/m-a-l-a-hub" class="github-link" target="_blank">
+                    <i class="fab fa-github"></i>
+                    GitHub
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section avec Vidéo IA -->
+    <section class="hero" id="accueil">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content fadeInUp">
+                    <span class="hero-author">
+                        <i class="fas fa-graduation-cap"></i>
+                        Projet Académique - Malachie Botoko
+                    </span>
+                    
+                    <h1>MineTrack Pro</h1>
+                    <p class="hero-subtitle">
+                        Tableau de bord minier intelligent développé en Python<br>
+                        Suivi temps réel • Simulation • Analyse de données
+                    </p>
+                    
+                    <div class="project-badge">
+                        <span class="badge">
+                            <i class="fab fa-python"></i> Python 3.11
+                        </span>
+                        <span class="badge">
+                            <i class="fas fa-database"></i> SQLite
+                        </span>
+                        <span class="badge">
+                            <i class="fas fa-chart-line"></i> Matplotlib
+                        </span>
+                        <span class="badge">
+                            <i class="fas fa-desktop"></i> Tkinter
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="video-container fadeInUp" style="animation-delay: 0.2s;">
+                    <div class="video-wrapper">
+                        <!-- ICI TU METS TA VIDÉO GÉNÉRÉE PAR IA -->
+                        
+                        <!-- OPTION 1 : Vidéo locale -->
+                        <!--
+                        <video controls poster="assets/thumbnail.jpg">
+                            <source src="assets/video/presentation-minetrack.mp4" type="video/mp4">
+                            Ton navigateur ne supporte pas la vidéo.
+                        </video>
+                        -->
+                        
+                        <!-- OPTION 2 : YouTube (si tu uploades ta vidéo) -->
+                        <!--
+                        <iframe src="https://www.youtube.com/embed/TA_ID_VIDEO" 
+                                title="Présentation MineTrack Pro" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
+                        -->
+                        
+                        <!-- OPTION 3 : PLACEHOLDER - Remplace par TA vidéo -->
+                        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(45deg, #0f172a, #1e293b); display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <i class="fas fa-play-circle" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
+                            <h3 style="color: white; margin-bottom: 10px;">🎥 Vidéo de Présentation</h3>
+                            <p style="color: var(--gray); text-align: center; max-width: 80%;">
+                                Génère ta vidéo IA gratuitement sur InVideo ou Pictory<br>
+                                <span style="font-size: 0.9rem; margin-top: 10px; display: block;">
+                                    👉 Lien vers ma démo (à venir)
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="video-caption">
+                        <i class="fas fa-robot"></i>
+                        Vidéo générée par IA - Démonstration de MineTrack Pro
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section À propos du projet -->
+    <section class="about" id="projet">
+        <div class="container">
+            <div class="about-grid">
+                <div class="student-card">
+                    <div class="student-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 class="student-name">Malachie Botoko</h3>
+                    <p class="student-title">Étudiant en Informatique</p>
+                    <p style="color: var(--gray); margin-bottom: 20px;">
+                        Développeur passionné par la data visualisation et les interfaces intelligentes.
+                    </p>
+                    <div class="student-contact">
+                        <a href="mailto:malachiebotoko03@gmail.com">
+                            <i class="fas fa-envelope"></i>
+                            malachiebotoko03@gmail.com
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h2 style="font-size: 2rem; margin-bottom: 30px;">🎯 Le Projet</h2>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">Septembre 2024</div>
+                            <div class="timeline-title">Début du projet</div>
+                            <p style="color: var(--gray);">
+                                Conception et architecture de MineTrack Pro, choix des technologies.
+                            </p>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">Octobre 2024</div>
+                            <div class="timeline-title">Développement du Dashboard</div>
+                            <p style="color: var(--gray);">
+                                Interface Tkinter avec métriques en temps réel et graphiques dynamiques.
+                            </p>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">Novembre 2024</div>
+                            <div class="timeline-title">Simulation et Base de données</div>
+                            <p style="color: var(--gray);">
+                                Système de simulation automatique et gestion SQLite.
+                            </p>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">Décembre 2024</div>
+                            <div class="timeline-title">Version 2.0 Premium</div>
+                            <p style="color: var(--gray);">
+                                Ajout des notifications, prévisions IA, export cloud.
+                            </p>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">Janvier 2025</div>
+                            <div class="timeline-title">Soutenance</div>
+                            <p style="color: var(--gray);">
+                                Présentation finale du projet devant le jury.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Fonctionnalités -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">⚡ Fonctionnalités Premium</h2>
+            <p class="section-subtitle">
+                Une solution complète développée en Python avec les meilleures pratiques
+            </p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3>Dashboard Temps Réel</h3>
+                    <p>
+                        Métriques de production, qualité, équipements. Graphiques dynamiques 
+                        avec Matplotlib. Interface moderne et responsive.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Simulation Intelligente</h3>
+                    <p>
+                        Génération automatique de lots miniers. Paramétrage de l'intervalle,
+                        types de minéraux, quantités et qualité.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Notifications</h3>
+                    <p>
+                        Système complet avec historique, priorités, sons, popups 
+                        et alertes email configurables.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>Export Multi-format</h3>
+                    <p>
+                        Excel, CSV, PDF, et services cloud (Google Drive, Dropbox, OneDrive, AWS S3).
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Prévisions Production</h3>
+                    <p>
+                        Analyse des tendances et prévisions sur 7 jours avec visualisation
+                        graphique des projections.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Base de données</h3>
+                    <p>
+                        SQLite avec sauvegarde automatique, restauration, et gestion
+                        complète des lots miniers.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Captures d'écran -->
+    <section class="screenshots" id="screenshots">
+        <div class="container">
+            <h2 class="section-title">📸 Captures d'écran</h2>
+            <p class="section-subtitle">
+                Interface réelle de l'application MineTrack Pro
+            </p>
+            
+            <div class="screenshot-grid">
+                <div class="screenshot-item">
+                    <div class="screenshot-image">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <div class="screenshot-caption">
+                        <strong>Dashboard Principal</strong><br>
+                        <span style="color: var(--gray);">Métriques et graphiques en temps réel</span>
+                    </div>
+                </div>
+                
+                <div class="screenshot-item">
+                    <div class="screenshot-image">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="screenshot-caption">
+                        <strong>Analyse de Production</strong><br>
+                        <span style="color: var(--gray);">Graphiques de tendance et qualité</span>
+                    </div>
+                </div>
+                
+                <div class="screenshot-item">
+                    <div class="screenshot-image">
+                        <i class="fas fa-table"></i>
+                    </div>
+                    <div class="screenshot-caption">
+                        <strong>Gestion des Lots</strong><br>
+                        <span style="color: var(--gray);">Tableau complet avec filtres</span>
+                    </div>
+                </div>
+                
+                <div class="screenshot-item">
+                    <div class="screenshot-image">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="screenshot-caption">
+                        <strong>Centre de Notifications</strong><br>
+                        <span style="color: var(--gray);">Alertes et historique</span>
+                    </div>
+                </div>
+                
+                <div class="screenshot-item">
+                    <div class="screenshot-image">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <div class="screenshot-caption">
+                        <strong>Paramètres</strong><br>
+                        <span style="color: var(--gray);">Configuration personnalisable</span>
+                    </div>
+                </div>
+                
+                <div class="screenshot-item">
+                    <div class="screenshot-image">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <div class="screenshot-caption">
+                        <strong>Export Cloud</strong><br>
+                        <span style="color: var(--gray);">Sauvegarde vers le cloud</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Téléchargement -->
+    <section class="download" id="download">
+        <div class="container">
+            <div class="download-card">
+                <h2 class="download-title">📥 Télécharger MineTrack Pro</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 20px; opacity: 0.9;">
+                    Application desktop complète pour Windows
+                </p>
+                <p style="margin-bottom: 30px; opacity: 0.8;">
+                    Code source disponible sur GitHub • Projet académique gratuit
+                </p>
+                
+                <div class="download-buttons">
+                    <a href="https://github.com/m-a-l-a-hub/MineTrack/archive/refs/heads/main.zip" class="btn btn-light" target="_blank">
+                        <i class="fas fa-download"></i>
+                        Télécharger (.zip)
+                    </a>
+                    <a href="https://github.com/m-a-l-a-hub/MineTrack" class="btn btn-outline-light" target="_blank">
+                        <i class="fab fa-github"></i>
+                        Voir le code
+                    </a>
+                </div>
+                
+                <p style="margin-top: 40px; font-size: 0.9rem; opacity: 0.7;">
+                    Version 2.0.0 • Python 3.11 • Tkinter • SQLite • Matplotlib
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Contact -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>📬 Me contacter</h3>
+                    <p style="color: var(--gray); margin-bottom: 30px;">
+                        N'hésitez pas à me contacter pour plus d'informations sur le projet.
+                    </p>
+                    
+                    <div class="contact-detail">
+                        <i class="fas fa-user"></i>
+                        <div>
+                            <strong>Malachie Botoko</strong><br>
+                            <span style="color: var(--gray);">Étudiant en Informatique</span>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-detail">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <strong>Email</strong><br>
+                            <a href="mailto:malachiebotoko03@gmail.com" style="color: var(--gray); text-decoration: none;">
+                                malachiebotoko03@gmail.com
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-detail">
+                        <i class="fab fa-github"></i>
+                        <div>
+                            <strong>GitHub</strong><br>
+                            <a href="https://github.com/m-a-l-a-hub" style="color: var(--gray); text-decoration: none;" target="_blank">
+                                github.com/m-a-l-a-hub
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-detail">
+                        <i class="fas fa-graduation-cap"></i>
+                        <div>
+                            <strong>Établissement</strong><br>
+                            <span style="color: var(--gray);">Projet de fin d'études 2024-2025</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3 style="margin-bottom: 20px;">📝 Formulaire de contact</h3>
+                    <p style="color: var(--gray); margin-bottom: 30px;">
+                        (Formulaire de démonstration - Utilise plutôt mon email)
+                    </p>
+                    
+                    <form action="https://formspree.io/f/xkgjvqzv" method="POST">
+                        <input type="text" name="name" placeholder="Votre nom" required>
+                        <input type="email" name="email" placeholder="Votre email" required>
+                        <textarea name="message" rows="4" placeholder="Votre message" required></textarea>
+                        <button type="submit">
+                            <i class="fas fa-paper-plane"></i>
+                            Envoyer
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-cube"></i>
+                    <span>MineTrack Pro</span>
+                </div>
+                
+                <div class="footer-social">
+                    <a href="https://github.com/m-a-l-a-hub" target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="mailto:malachiebotoko03@gmail.com">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="#" target="_blank">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" target="_blank">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2024 MineTrack Pro - Projet Académique</p>
+                <p style="margin-top: 10px; font-size: 0.8rem;">
+                    Développé par <strong>Malachie Botoko</strong> dans le cadre d'un projet de fin d'études<br>
+                    Tous droits réservés • Python • Tkinter • SQLite • Matplotlib
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
